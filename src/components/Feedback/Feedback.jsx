@@ -1,9 +1,9 @@
 import { Component } from "react";
-import Options from './Options';
-import Statistic from './Statistic';
+import FeedbackOptions from './FeedbackOptions';
+import Statistics from './Statistics';
 import Notification from "./Notification";
 import Section from "./Section";
-// import PropTypes from 'prop-types';
+
 
 export class Feedback extends Component {
     static defaultProps = {
@@ -12,50 +12,40 @@ export class Feedback extends Component {
         initialBad: 0,
     };
 
-    // static propTypes = {
-
-    // };
-
     state = {
         good: 0,
         neutral: 0,
         bad: 0
     };
 
-    handGoodFeedback = () => {
+    handleFeedback = (propertyName) => {
         this.setState((prevState) => {
             return {
-                good: prevState.good + 1,
+                [propertyName]: prevState[propertyName] + 1,
             };
         });
-        console.log(this.state.good);
-    }
-    
-    handNeutralFeedback = () => {
-        this.setState((prevState) => {
-            return {
-                neutral: prevState.neutral + 1,
-            };
-        });
-        console.log(this.state.neutral);
-    } 
+    };
 
-    handBadFeedback = () => {
-        this.setState((prevState) => {
-            return {
-                bad: prevState.bad + 1,
-            };
-        });
-        console.log(this.state.bad);
-    } 
+    countTotalFeedback = () => {
+        return this.state.good + this.state.neutral + this.state.bad;
+    };
+
+    countPositiveFeedbackPercentage = () => {
+        return Math.round(this.state.good/(this.state.good + this.state.neutral + this.state.bad)*100)
+    };
 
     render() {
+        const total = this.countTotalFeedback();
+        const options = Object.keys(this.state);
         return (
-            <div>
-                <p>Please leave feedback</p>
-                <Section><Options onGood={this.handGoodFeedback} onNeutral={this.handNeutralFeedback} onBad={this.handBadFeedback} /></Section>
-                <Section>{(this.state.good + this.state.neutral + this.state.bad) === 0 ? <Notification message="No feedback given"/> : <Statistic good={this.state.good} neutral={this.state.neutral} bad={this.state.bad} total={this.state.good + this.state.neutral + this.state.bad} positivePercentage={Math.round(this.state.good/(this.state.good + this.state.neutral + this.state.bad)*100)} />}</Section>
-            </div>
+            <>
+                <Section title= 'Please leave feedback'>
+                    <FeedbackOptions options={options} onLeaveFeedback={this.handleFeedback} />
+                </Section>
+                <Section title = 'Statistics'>
+                    {!total ? <Notification message="No feedback given" /> : <Statistics good={this.state.good} neutral={this.state.neutral} bad={this.state.bad} total={total} positivePercentage={this.countPositiveFeedbackPercentage()} />}
+                </Section>
+            </>
         );
     }
-}
+};
