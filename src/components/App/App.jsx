@@ -1,4 +1,4 @@
-import { Feedback } from "../Feedback/Feedback";
+import { Feedback } from "../Feedback";
 import { Wrapper } from './App.styled';
 
 

@@ -1,8 +1,8 @@
 import { Component } from "react";
-import FeedbackOptions from './FeedbackOptions';
-import Statistics from './Statistics';
-import Notification from "./Notification";
-import Section from "./Section";
+import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
+import Statistics from './Statistic/Statistics';
+import Notification from "../Notification/Notification";
+import Section from "../Section/Section";
 
 
 export class Feedback extends Component {
@@ -13,9 +13,9 @@ export class Feedback extends Component {
     };
 
     state = {
-        good: 0,
-        neutral: 0,
-        bad: 0
+        good: this.props.initialGood,
+        neutral: this.props.initialNeutral,
+        bad: this.props.initialBad
     };
 
     handleFeedback = (propertyName) => {
