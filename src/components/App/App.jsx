@@ -6,7 +6,7 @@ import { Wrapper } from './App.styled';
 export const App = () => {
   return (
     <Wrapper>
-      <Feedback/>
+      <Feedback />
     </Wrapper>
   );
 };
